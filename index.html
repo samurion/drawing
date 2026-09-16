@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feladatkártya Sorsoló</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f2eee9;
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Háttér hangulat (hegyes / természetes textúra illúzió jobb oldalon) */
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; width: 45%;
+            background: linear-gradient(to left, rgba(242,238,233,0.9), transparent),
+                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1000&auto=format&fit=crop') no-repeat center center/cover;
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            letter-spacing: 2px;
+            color: #111;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        p.subtitle {
+            font-size: 13px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        /* Vezérlő sáv */
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #ffffff;
+            border: 1px solid #dcd6ce;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .btn:hover:not(:disabled) {
+            background: #faf8f5;
+            border-color: #bbb;
+        }
+
+        /* Fő sorsolás gomb (fekete kiemelt) */
+        #draw-btn {
+            background: #111111;
+            color: #ffffff;
+            border-color: #111111;
+            font-weight: 600;
+            padding: 10px 24px;
+        }
+        #draw-btn:hover:not(:disabled) {
+            background: #2f2f2f;
+        }
+        #draw-btn:disabled, .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Rejtett fájl input */
+        #csv-file {
+            display: none;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 35px;
+        }
+
+        /* Kártyák konténer */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        /* Alap kártya stílus */
+        .card {
+            border-radius: 16px;
+            padding: 30px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            transition: transform 0.3s ease;
+        }
+
+        .card-top {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .card-content {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 20px 0;
+        }
+
+        .card-bottom-line {
+            width: 24px;
+            height: 2px;
+            background: currentColor;
+            opacity: 0.3;
+        }
+
+        /* 1 pontos kártya (Világos / Bézs) */
+        .card-1 {
+            background-color: #e9e3dc;
+            color: #222222;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .card-1 .card-top {
+            color: #555;
+        }
+
+        /* 2 pontos kártya (Sötét / Fekete) */
+        .card-2 {
+            background-color: #161616;
+            color: #f4f1ea;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .card-2 .card-top {
+            color: #999;
+        }
+
+        /* Alsó leírás */
+        .footer-note {
+            text-align: center;
+            font-size: 11px;
+            color: #888;
+            letter-spacing: 0.5px;
+        }
+
+        /* Mobil nézet */
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>FELADATKÁRTYA SORSOLÓ</h1>
+        <p class="subtitle">Egy sorsolás = egy teljes sor, mindkét feladattal</p>
+    </header>
+
+    <div class="controls">
+        <!-- Rejtett input aktiválása gombbal -->
+        <label class="btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            <span id="upload-label-text">CSV / TXT betöltése</span>
+            <input type="file" id="csv-file" accept=".csv,.txt">
+        </label>
+
+        <button class="btn" id="draw-btn" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+            SORSOLÁS
+        </button>
+
+        <button class="btn" id="reset-btn" title="Teljes reset">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            TÖRLÉS
+        </button>
+    </div>
+
+    <div class="progress-text" id="progress-info">Nincs betöltve fájl</div>
+
+    <div class="cards-grid">
+        <!-- 1 pontos kártya -->
+        <div class="card card-1">
+            <div class="card-top">1 pontos feladat</div>
+            <div class="card-content" id="card-1-text">Vár a feladat...</div>
+            <div class="card-bottom-line"></div>
+        </div>
+
+        <!-- 2 pontos kártya -->
+        <div class="card card-2">
+            <div class="card-top">2 pontos feladat</div>
+            <div class="card-content" id="card-2-text">Vár a feladat...</div>
+            <div class="card-bottom-line"></div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        A CSV első oszlopa = 1 pontos feladat &nbsp;•&nbsp; Második oszlopa = 2 pontos feladat
+    </div>
+</div>
+
+<script>
+    let tasks1 = [];
+    let tasks2 = [];
+    let origTotal = 0;
+    let currentDrawnCount = 0;
+
+    document.getElementById('csv-file').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        document.getElementById('upload-label-text').innerText = file.name;
+
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+        
+        reader.onload = function(e) {
+            const buffer = e.target.result;
+            const decoder = new TextDecoder('windows-1250'); // Magyar ékezetek biztosítása
+            const text = decoder.decode(buffer);
+            
+            const lines = text.split(/\r\n|\n/);
+            
+            tasks1 = [];
+            tasks2 = [];
+
+            lines.forEach(line => {
+                if (line.trim() === '') return;
+                
+                let separator = line.includes(';') ? ';' : ',';
+                let cols = line.split(separator).map(c => c.trim().replace(/^["']|["']$/g, ''));
+
+                if (cols[0] && cols[0].length > 0) tasks1.push(cols[0]);
+                if (cols[1] && cols[1].length > 0) tasks2.push(cols[1]);
+            });
+
+            origTotal = Math.max(tasks1.length, tasks2.length);
+            currentDrawnCount = 0;
+
+            if (origTotal > 0) {
+                document.getElementById('draw-btn').disabled = false;
+                document.getElementById('card-1-text').innerText = "Készen áll!";
+                document.getElementById('card-2-text').innerText = "Készen áll!";
+                updateProgress();
+            } else {
+                alert("Nem találtam feladatokat a fájlban!");
+            }
+        };
+    });
+
+    document.getElementById('draw-btn').addEventListener('click', function() {
+        if (tasks1.length === 0 && tasks2.length === 0) {
+            alert("Elfogyott az összes kártya!");
+            this.disabled = true;
+            return;
+        }
+
+        currentDrawnCount++;
+
+        // 1 pontos húzás
+        if (tasks1.length > 0) {
+            const index1 = Math.floor(Math.random() * tasks1.length);
+            document.getElementById('card-1-text').innerText = tasks1.splice(index1, 1)[0];
+        } else {
+            document.getElementById('card-1-text').innerText = "— Elfogytak az 1 pontosok —";
+        }
+
+        // 2 pontos húzás
+        if (tasks2.length > 0) {
+            const index2 = Math.floor(Math.random() * tasks2.length);
+            document.getElementById('card-2-text').innerText = tasks2.splice(index2, 1)[0];
+        } else {
+            document.getElementById('card-2-text').innerText = "— Elfogytak a 2 pontosok —";
+        }
+
+        updateProgress();
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', function() {
+        location.reload(); // Egyszerű és gyors újratöltés alapállapotra
+    });
+
+    function updateProgress() {
+        const remaining = Math.max(tasks1.length, tasks2.length);
+        const sorsoltIndex = origTotal - remaining;
+        document.getElementById('progress-info').innerText = `Sorsolt sor: ${sorsoltIndex} / ${origTotal}`;
+    }
+</script>
+
+</body>
+</html>
