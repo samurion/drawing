@@ -1,554 +1,1503 @@
+```html
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Feladatkártya Sorsoló</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
-    <style>
-        /* 1. Téma paletták */
-        :root {
-            --bg-color: #f7f4ef;
-            --container-bg: rgba(255, 255, 255, 0.78);
-            --text-main: #1c1c1a;
-            --text-muted: #787570;
-            --card-1-bg: #ece6df;
-            --card-1-text: #222220;
-            --card-2-bg: #1c1c1a;
-            --card-2-text: #f7f4ef;
-            --accent-btn-bg: #1c1c1a;
-            --accent-btn-text: #ffffff;
-            --accent-btn-hover: #3a3a37;
-            --btn-bg: #ffffff;
-            --btn-border: #e2ded8;
-            --btn-text: #2c2c2a;
-            --btn-hover: #f0ece6;
-            --border-color: rgba(0, 0, 0, 0.06);
-            --shadow: 0 20px 40px rgba(0,0,0,0.04);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
-        [data-theme="terracotta"] {
-            --bg-color: #f4ece4;
-            --container-bg: rgba(255, 251, 247, 0.82);
-            --text-main: #2d231e;
-            --text-muted: #8c786d;
-            --card-1-bg: #e6d5cb;
-            --card-1-text: #2d231e;
-            --card-2-bg: #5c3d2e;
-            --card-2-text: #f9f5f0;
-            --accent-btn-bg: #8c4a32;
-            --accent-btn-text: #ffffff;
-            --accent-btn-hover: #a6573c;
-            --btn-bg: #ffffff;
-            --btn-border: #dcd0c5;
-            --btn-text: #2d231e;
-            --btn-hover: #faf3ee;
-            --border-color: rgba(140, 74, 50, 0.08);
-            --shadow: 0 20px 40px rgba(92,61,46,0.05);
-        }
+<title>Feladatkártya Sorsoló</title>
 
-        [data-theme="dark"] {
-            --bg-color: #121212;
-            --container-bg: rgba(25, 25, 25, 0.85);
-            --text-main: #f3f3f3;
-            --text-muted: #a0a0a0;
-            --card-1-bg: #262626;
-            --card-1-text: #f3f3f3;
-            --card-2-bg: #3d3d3d;
-            --card-2-text: #ffffff;
-            --accent-btn-bg: #e0e0e0;
-            --accent-btn-text: #121212;
-            --accent-btn-hover: #ffffff;
-            --btn-bg: #1e1e1e;
-            --btn-border: #383838;
-            --btn-text: #e0e0e0;
-            --btn-hover: #2a2a2a;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
 
-        [data-theme="sage"] {
-            --bg-color: #edf2ee;
-            --container-bg: rgba(246, 249, 246, 0.82);
-            --text-main: #1b261f;
-            --text-muted: #6b7a70;
-            --card-1-bg: #dfe7e1;
-            --card-1-text: #1b261f;
-            --card-2-bg: #2d3b32;
-            --card-2-text: #f4f7f5;
-            --accent-btn-bg: #344c3d;
-            --accent-btn-text: #ffffff;
-            --accent-btn-hover: #43614e;
-            --btn-bg: #ffffff;
-            --btn-border: #d0dbc3;
-            --btn-text: #1b261f;
-            --btn-hover: #f2f7f3;
-            --border-color: rgba(52, 76, 61, 0.08);
-            --shadow: 0 20px 40px rgba(27,38,31,0.04);
-        }
+<style>
 
-        [data-theme="luxury"] {
-            --bg-color: #141414;
-            --container-bg: rgba(22, 22, 22, 0.9);
-            --text-main: #f4eee1;
-            --text-muted: #9e9584;
-            --card-1-bg: #22201c;
-            --card-1-text: #f4eee1;
-            --card-2-bg: #332f28;
-            --card-2-text: #ffffff;
-            --accent-btn-bg: #c5a059;
-            --accent-btn-text: #141414;
-            --accent-btn-hover: #d4af37;
-            --btn-bg: #1c1c1c;
-            --btn-border: #33302a;
-            --btn-text: #dfd7c5;
-            --btn-hover: #262420;
-            --border-color: rgba(197, 160, 89, 0.15);
-            --shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
+:root {
+    --bg: #f4f1eb;
+    --surface: rgba(255,255,255,.78);
+    --surface-solid: #ffffff;
 
-        [data-theme="ice"] {
-            --bg-color: #eef3f7;
-            --container-bg: rgba(245, 248, 252, 0.85);
-            --text-main: #102030;
-            --text-muted: #65778b;
-            --card-1-bg: #e2ebf3;
-            --card-1-text: #102030;
-            --card-2-bg: #1e3a5f;
-            --card-2-text: #f0f4f8;
-            --accent-btn-bg: #2b4c7e;
-            --accent-btn-text: #ffffff;
-            --accent-btn-hover: #375f9d;
-            --btn-bg: #ffffff;
-            --btn-border: #cbdceb;
-            --btn-text: #102030;
-            --btn-hover: #ecf3fb;
-            --border-color: rgba(43, 76, 126, 0.08);
-            --shadow: 0 20px 40px rgba(16,32,48,0.05);
-        }
+    --text: #242321;
+    --muted: #89857e;
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    --card1: #e8e1d7;
+    --card1-text: #292621;
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            position: fixed;
-        }
+    --card2: #292621;
+    --card2-text: #faf8f4;
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-            transition: background-color 0.4s ease;
-        }
+    --accent: #242321;
+    --accent-hover: #3b3935;
 
-        .app-wrapper {
-            width: 100%;
-            height: 100%;
-            max-width: 900px;
-            max-height: 95vh;
-            background: var(--container-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color);
-            border-radius: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 24px 30px;
-            box-shadow: var(--shadow);
-            position: relative;
-            transition: all 0.4s ease;
-            overflow-y: auto;
-        }
+    --button: #ffffff;
+    --button-border: #e2ddd5;
+    --button-hover: #f6f3ee;
 
-        @media (min-width: 600px) {
-            .app-wrapper {
-                border-radius: 36px;
-                height: 88vh;
-                padding: 32px 40px;
-            }
-        }
+    --border: rgba(35,32,27,.08);
 
-        /* Beállítások / Téma váltó */
-        .settings-container {
-            position: absolute;
-            top: 20px;
-            right: 24px;
-            z-index: 100;
-        }
+    --shadow:
+        0 30px 80px rgba(43,37,29,.08),
+        0 5px 20px rgba(43,37,29,.04);
 
-        .icon-btn {
-            background: var(--btn-bg);
-            border: 1px solid var(--btn-border);
-            color: var(--btn-text);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            transition: transform 0.2s ease, background 0.2s ease;
-        }
-        .icon-btn:active {
-            transform: scale(0.92);
-        }
+    --radius: 32px;
+}
 
-        .theme-menu {
-            position: absolute;
-            top: 48px;
-            right: 0;
-            background: var(--btn-bg);
-            border: 1px solid var(--btn-border);
-            border-radius: 18px;
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(-8px);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            width: 175px;
-            z-index: 101;
-        }
-        .theme-menu.active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-        .theme-option {
-            background: transparent;
-            border: none;
-            color: var(--btn-text);
-            padding: 9px 12px;
-            text-align: left;
-            font-size: 13px;
-            font-weight: 500;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-        .theme-option:hover {
-            background: var(--btn-hover);
-        }
+/* =========================
+   TÉMÁK
+========================= */
 
-        /* Fejléc */
-        header {
-            text-align: center;
-            margin-top: 5px;
-            margin-bottom: 10px;
-        }
-        h1 {
-            font-family: 'Newsreader', serif;
-            font-size: 26px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            color: var(--text-main);
-            margin-bottom: 4px;
-        }
-        p.subtitle {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
+[data-theme="terracotta"] {
+    --bg: #f3e9df;
+    --surface: rgba(255,250,245,.82);
+    --text: #34251f;
+    --muted: #987f72;
 
-        /* Intelligens Reszponzív Grid: 
-           - Álló nézetben (vagy mobil tartományban): egymás alatt (1 oszlop)
-           - Fekvő nézetben / Széles képernyőn: egymás mellett (2 oszlop) */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            margin: auto 0;
-        }
+    --card1: #e5cec0;
+    --card1-text: #3b2921;
 
-        @media (min-orientation: landscape) and (min-width: 700px), (min-width: 850px) {
-            .cards-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
-            }
-        }
+    --card2: #704938;
+    --card2-text: #fff8f2;
 
-        .card {
-            border-radius: 22px;
-            padding: 24px;
-            min-height: 170px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.02);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
+    --accent: #9a563d;
+    --accent-hover: #b06448;
 
-        .card-top {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-            opacity: 0.7;
-        }
+    --button: #fffaf6;
+    --button-border: #e2d1c5;
+    --button-hover: #f8eee7;
 
-        .card-content {
-            font-family: 'Newsreader', serif;
-            font-size: 22px;
-            font-weight: 400;
-            line-height: 1.35;
-            margin: 12px 0;
-            word-break: break-word;
-        }
+    --border: rgba(130,75,52,.10);
 
-        .card-bottom-line {
-            width: 20px;
-            height: 2px;
-            background: currentColor;
-            opacity: 0.25;
-        }
+    --shadow:
+        0 30px 80px rgba(112,73,56,.12);
+}
 
-        .card-1 {
-            background-color: var(--card-1-bg);
-            color: var(--card-1-text);
-        }
+[data-theme="sage"] {
+    --bg: #e9eee9;
+    --surface: rgba(249,252,249,.84);
+    --text: #243128;
+    --muted: #77867b;
 
-        .card-2 {
-            background-color: var(--card-2-bg);
-            color: var(--card-2-text);
-        }
+    --card1: #d7e1d8;
+    --card1-text: #27352b;
 
-        /* Vezérlők */
-        .controls-area {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
+    --card2: #344b3d;
+    --card2-text: #f6faf7;
 
-        .controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+    --accent: #41604e;
+    --accent-hover: #527662;
 
-        .btn {
-            background: var(--btn-bg);
-            border: 1px solid var(--btn-border);
-            padding: 11px 18px;
-            border-radius: 14px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--btn-text);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.01);
-            text-decoration: none;
-        }
-        .btn:hover:not(:disabled) {
-            background: var(--btn-hover);
-        }
-        .btn:active:not(:disabled) {
-            transform: scale(0.97);
-        }
+    --button: #ffffff;
+    --button-border: #d3ded5;
+    --button-hover: #f1f6f2;
 
-        #draw-btn {
-            background: var(--accent-btn-bg);
-            color: var(--accent-btn-text);
-            border-color: var(--accent-btn-bg);
-            font-weight: 600;
-            padding: 11px 26px;
-        }
-        #draw-btn:hover:not(:disabled) {
-            background: var(--accent-btn-hover);
-        }
+    --border: rgba(58,82,66,.10);
 
-        #draw-btn:disabled, .btn:disabled {
-            opacity: 0.35;
-            cursor: not-allowed;
-        }
+    --shadow:
+        0 30px 80px rgba(45,67,53,.09);
+}
 
-        #csv-file {
-            display: none;
-        }
-    </style>
+[data-theme="dusty-blue"] {
+    --bg: #e9eef2;
+    --surface: rgba(249,251,253,.84);
+    --text: #26333d;
+    --muted: #778895;
+
+    --card1: #d8e1e8;
+    --card1-text: #293741;
+
+    --card2: #344b5c;
+    --card2-text: #f7fafc;
+
+    --accent: #46677e;
+    --accent-hover: #567b94;
+
+    --button: #ffffff;
+    --button-border: #d5dfe6;
+    --button-hover: #f1f5f8;
+
+    --border: rgba(57,81,98,.10);
+
+    --shadow:
+        0 30px 80px rgba(43,63,77,.09);
+}
+
+[data-theme="lavender"] {
+    --bg: #efebf2;
+    --surface: rgba(252,250,253,.86);
+    --text: #302b35;
+    --muted: #877d8e;
+
+    --card1: #e1d9e5;
+    --card1-text: #352e39;
+
+    --card2: #4d4354;
+    --card2-text: #faf8fb;
+
+    --accent: #695773;
+    --accent-hover: #796482;
+
+    --button: #ffffff;
+    --button-border: #ded6e2;
+    --button-hover: #f7f3f8;
+
+    --border: rgba(87,72,96,.10);
+
+    --shadow:
+        0 30px 80px rgba(71,56,81,.09);
+}
+
+[data-theme="rose"] {
+    --bg: #f4ebed;
+    --surface: rgba(255,250,251,.85);
+    --text: #35282c;
+    --muted: #947e83;
+
+    --card1: #ead9dc;
+    --card1-text: #39292d;
+
+    --card2: #62464e;
+    --card2-text: #fff9fa;
+
+    --accent: #9b6672;
+    --accent-hover: #ad7582;
+
+    --button: #ffffff;
+    --button-border: #e4d4d8;
+    --button-hover: #faf1f3;
+
+    --border: rgba(111,73,82,.10);
+
+    --shadow:
+        0 30px 80px rgba(91,60,69,.09);
+}
+
+[data-theme="midnight"] {
+    --bg: #111214;
+    --surface: rgba(25,26,29,.88);
+    --text: #f4f1eb;
+    --muted: #96959a;
+
+    --card1: #242529;
+    --card1-text: #f4f1eb;
+
+    --card2: #35363b;
+    --card2-text: #ffffff;
+
+    --accent: #f0ede7;
+    --accent-hover: #ffffff;
+
+    --button: #1d1e21;
+    --button-border: #36373b;
+    --button-hover: #292a2e;
+
+    --border: rgba(255,255,255,.08);
+
+    --shadow:
+        0 30px 90px rgba(0,0,0,.45);
+}
+
+[data-theme="espresso"] {
+    --bg: #eee8e0;
+    --surface: rgba(251,248,243,.84);
+    --text: #302721;
+    --muted: #8d7d70;
+
+    --card1: #ded2c4;
+    --card1-text: #342820;
+
+    --card2: #49362c;
+    --card2-text: #fbf7f0;
+
+    --accent: #765443;
+    --accent-hover: #896451;
+
+    --button: #ffffff;
+    --button-border: #ddd2c7;
+    --button-hover: #f7f2ec;
+
+    --border: rgba(73,54,44,.10);
+
+    --shadow:
+        0 30px 80px rgba(73,54,44,.10);
+}
+
+[data-theme="olive"] {
+    --bg: #edefe5;
+    --surface: rgba(249,250,244,.85);
+    --text: #2d3026;
+    --muted: #818575;
+
+    --card1: #dfe2d2;
+    --card1-text: #303328;
+
+    --card2: #4d523b;
+    --card2-text: #fafbf4;
+
+    --accent: #697047;
+    --accent-hover: #7c8554;
+
+    --button: #ffffff;
+    --button-border: #d9ddcd;
+    --button-hover: #f4f6ed;
+
+    --border: rgba(75,81,55,.10);
+
+    --shadow:
+        0 30px 80px rgba(64,68,45,.08);
+}
+
+/* =========================
+   ALAP
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: "DM Sans", sans-serif;
+    background:
+        radial-gradient(circle at 15% 15%, rgba(255,255,255,.55), transparent 30%),
+        radial-gradient(circle at 85% 85%, rgba(0,0,0,.035), transparent 35%),
+        var(--bg);
+
+    color: var(--text);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        env(safe-area-inset-top)
+        env(safe-area-inset-right)
+        env(safe-area-inset-bottom)
+        env(safe-area-inset-left);
+
+    transition:
+        background .5s ease,
+        color .5s ease;
+}
+
+/* =========================
+   APP
+========================= */
+
+.app-wrapper {
+    width: min(940px, 100%);
+    height: min(900px, 94vh);
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 38px 46px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 38px;
+
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    box-shadow: var(--shadow);
+
+    overflow: hidden;
+
+    transition:
+        background .5s ease,
+        box-shadow .5s ease;
+}
+
+/* finom dekoráció */
+
+.app-wrapper::before {
+    content: "";
+    position: absolute;
+
+    width: 320px;
+    height: 320px;
+
+    top: -180px;
+    left: -160px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.28);
+
+    pointer-events: none;
+}
+
+.app-wrapper::after {
+    content: "";
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    right: -160px;
+    bottom: -160px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.12);
+
+    pointer-events: none;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    text-align: center;
+
+    padding-top: 8px;
+    margin-bottom: 30px;
+
+    position: relative;
+    z-index: 2;
+}
+
+.eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 3px;
+    text-transform: uppercase;
+
+    color: var(--muted);
+
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-family: "Playfair Display", serif;
+
+    font-size: clamp(30px, 4vw, 42px);
+
+    line-height: 1.1;
+
+    font-weight: 500;
+
+    letter-spacing: -0.8px;
+
+    color: var(--text);
+
+    margin-bottom: 9px;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: .2px;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings-container {
+    position: absolute;
+
+    top: 25px;
+    right: 28px;
+
+    z-index: 20;
+}
+
+.icon-btn {
+    width: 43px;
+    height: 43px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--button-border);
+
+    background: var(--button);
+    color: var(--text);
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        background .25s ease;
+}
+
+.icon-btn:hover {
+    transform: rotate(25deg);
+    background: var(--button-hover);
+}
+
+.icon-btn:active {
+    transform: scale(.92);
+}
+
+/* =========================
+   THEME MENU
+========================= */
+
+.theme-menu {
+    position: absolute;
+
+    right: 0;
+    top: 53px;
+
+    width: 225px;
+
+    padding: 12px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 6px;
+
+    background: var(--button);
+
+    border: 1px solid var(--button-border);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.14);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(.97);
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease,
+        visibility .25s;
+}
+
+.theme-menu.active {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0) scale(1);
+}
+
+.theme-option {
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 8px 9px;
+
+    border: none;
+    border-radius: 13px;
+
+    background: transparent;
+
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: background .2s ease;
+}
+
+.theme-option:hover {
+    background: var(--button-hover);
+}
+
+.color-dot {
+    width: 17px;
+    height: 17px;
+
+    flex: 0 0 17px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(0,0,0,.08);
+}
+
+/* =========================
+   KÁRTYÁK
+========================= */
+
+.cards-grid {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 22px;
+
+    margin: auto 0;
+
+    position: relative;
+    z-index: 2;
+}
+
+.card {
+    min-height: 270px;
+
+    padding: 29px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border-radius: 27px;
+
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        box-shadow .35s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 22px 45px rgba(0,0,0,.10);
+}
+
+/* dekoratív kör */
+
+.card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 170px;
+    height: 170px;
+
+    right: -85px;
+    top: -85px;
+
+    border-radius: 50%;
+
+    border: 1px solid currentColor;
+
+    opacity: .08;
+}
+
+.card-top {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    opacity: .58;
+}
+
+.card-top::before {
+    content: "";
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+
+    opacity: .6;
+}
+
+.card-content {
+    font-family: "Playfair Display", serif;
+
+    font-size: clamp(21px, 2.6vw, 28px);
+
+    line-height: 1.32;
+
+    font-weight: 400;
+
+    letter-spacing: -.2px;
+
+    margin: 25px 0;
+
+    overflow-wrap: anywhere;
+}
+
+.card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-number {
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    opacity: .45;
+}
+
+.card-bottom-line {
+    width: 32px;
+    height: 1px;
+
+    background: currentColor;
+
+    opacity: .3;
+}
+
+.card-1 {
+    background: var(--card1);
+    color: var(--card1-text);
+}
+
+.card-2 {
+    background: var(--card2);
+    color: var(--card2-text);
+}
+
+/* =========================
+   VEZÉRLŐK
+========================= */
+
+.controls-area {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 30px;
+}
+
+.controls {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 9px;
+
+    flex-wrap: wrap;
+}
+
+.btn {
+    min-height: 46px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    padding: 0 18px;
+
+    border-radius: 15px;
+
+    border: 1px solid var(--button-border);
+
+    background: var(--button);
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: .5px;
+
+    cursor: pointer;
+
+    box-shadow: 0 3px 10px rgba(0,0,0,.025);
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.btn:hover:not(:disabled) {
+    background: var(--button-hover);
+
+    box-shadow:
+        0 7px 20px rgba(0,0,0,.06);
+
+    transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(.97);
+}
+
+#draw-btn {
+    min-width: 150px;
+
+    background: var(--accent);
+
+    color: var(--button);
+
+    border-color: var(--accent);
+
+    letter-spacing: 1.2px;
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,.12);
+}
+
+#draw-btn:hover:not(:disabled) {
+    background: var(--accent-hover);
+
+    box-shadow:
+        0 12px 28px rgba(0,0,0,.16);
+}
+
+.btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+/* =========================
+   FILE
+========================= */
+
+.file-name {
+    max-width: 145px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+#csv-file {
+    display: none;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 700px) {
+
+    .app-wrapper {
+        width: 100%;
+        height: 100%;
+
+        max-height: none;
+
+        border-radius: 0;
+
+        padding:
+            28px 20px
+            calc(22px + env(safe-area-inset-bottom));
+    }
+
+    .settings-container {
+        top: 18px;
+        right: 18px;
+    }
+
+    header {
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .card {
+        min-height: 175px;
+        padding: 21px;
+    }
+
+    .card-content {
+        font-size: 22px;
+        margin: 13px 0;
+    }
+
+    .controls {
+        gap: 7px;
+    }
+
+    .btn {
+        min-height: 43px;
+        padding: 0 13px;
+    }
+
+    #draw-btn {
+        min-width: 130px;
+    }
+}
+
+@media (max-height: 650px) and (orientation: landscape) {
+
+    .app-wrapper {
+        padding: 20px 30px;
+        max-height: 96vh;
+    }
+
+    header {
+        margin-bottom: 12px;
+        padding-top: 0;
+    }
+
+    .eyebrow {
+        display: none;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    .cards-grid {
+        gap: 14px;
+    }
+
+    .card {
+        min-height: 145px;
+        padding: 20px;
+    }
+
+    .card-content {
+        font-size: 20px;
+        margin: 10px 0;
+    }
+
+    .controls-area {
+        margin-top: 12px;
+    }
+}
+
+</style>
 </head>
+
 <body>
 
 <div class="app-wrapper">
-    <!-- Beállítások / Téma ikon -->
+
+    <!-- TÉMA VÁLTÓ -->
+
     <div class="settings-container">
-        <button class="icon-btn" id="settings-toggle" title="Stílusok és témák">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.69 0 1.31.39 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09c-.2.61-.82 1-1.51 1z"></path></svg>
+
+        <button
+            class="icon-btn"
+            id="settings-toggle"
+            title="Témák">
+
+            <svg width="17" height="17"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.7"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <circle cx="12" cy="12" r="3"></circle>
+
+                <path d="
+                M19.4 15
+                a1.65 1.65 0 0 0 .33 1.82
+                l.06.06
+                a2 2 0 1 1-2.83 2.83
+                l-.06-.06
+                a1.65 1.65 0 0 0-1.82-.33
+                1.65 1.65 0 0 0-1 1.51
+                V21
+                a2 2 0 0 1-4 0
+                v-.09
+                a1.65 1.65 0 0 0-1-1.51
+                1.65 1.65 0 0 0-1.82.33
+                l-.06.06
+                a2 2 0 1 1-2.83-2.83
+                l.06-.06
+                A1.65 1.65 0 0 0 4.6 15
+                a1.65 1.65 0 0 0-1.51-1H3
+                a2 2 0 0 1 0-4
+                h.09
+                A1.65 1.65 0 0 0 4.6 9
+                a1.65 1.65 0 0 0-.33-1.82
+                l-.06-.06
+                a2 2 0 1 1 2.83-2.83
+                l.06.06
+                A1.65 1.65 0 0 0 9 4.6
+                a1.65 1.65 0 0 0 1-1.51V3
+                a2 2 0 0 1 4 0v.09
+                a1.65 1.65 0 0 0 1 1.51
+                1.65 1.65 0 0 0 1.82-.33
+                l.06-.06
+                a2 2 0 1 1 2.83 2.83
+                l-.06.06
+                A1.65 1.65 0 0 0 19.4 9
+                a1.65 1.65 0 0 0 1.51 1H21
+                a2 2 0 0 1 0 4h-.09
+                c-.69 0-1.31.39-1.51 1z">
+                </path>
+
+            </svg>
+
         </button>
+
         <div class="theme-menu" id="theme-menu">
-            <button class="theme-option" onclick="setTheme('default')">✨ Krém Minimal</button>
-            <button class="theme-option" onclick="setTheme('terracotta')">🟤 Terrakotta Meleg</button>
-            <button class="theme-option" onclick="setTheme('sage')">🌿 Zsálya Zöld</button>
-            <button class="theme-option" onclick="setTheme('ice')">❄️ Jeges Kék</button>
-            <button class="theme-option" onclick="setTheme('dark')">🌙 Éjféli Sötét</button>
-            <button class="theme-option" onclick="setTheme('luxury')">👑 Arany / Luxury</button>
+
+            <button class="theme-option" onclick="setTheme('default')">
+                <span class="color-dot" style="background:#e8e1d7"></span>
+                Krém
+            </button>
+
+            <button class="theme-option" onclick="setTheme('terracotta')">
+                <span class="color-dot" style="background:#9a563d"></span>
+                Terrakotta
+            </button>
+
+            <button class="theme-option" onclick="setTheme('sage')">
+                <span class="color-dot" style="background:#41604e"></span>
+                Zsálya
+            </button>
+
+            <button class="theme-option" onclick="setTheme('dusty-blue')">
+                <span class="color-dot" style="background:#46677e"></span>
+                Kék
+            </button>
+
+            <button class="theme-option" onclick="setTheme('lavender')">
+                <span class="color-dot" style="background:#695773"></span>
+                Levendula
+            </button>
+
+            <button class="theme-option" onclick="setTheme('rose')">
+                <span class="color-dot" style="background:#9b6672"></span>
+                Púderrózsaszín
+            </button>
+
+            <button class="theme-option" onclick="setTheme('espresso')">
+                <span class="color-dot" style="background:#765443"></span>
+                Espresso
+            </button>
+
+            <button class="theme-option" onclick="setTheme('olive')">
+                <span class="color-dot" style="background:#697047"></span>
+                Olíva
+            </button>
+
+            <button class="theme-option" onclick="setTheme('midnight')">
+                <span class="color-dot" style="background:#292a2e"></span>
+                Midnight
+            </button>
+
         </div>
+
     </div>
+
+    <!-- FEJLÉC -->
 
     <header>
-        <h1>Feladatkártya Sorsoló</h1>
-        <p class="subtitle" id="progress-info">Nincs betöltve CSV fájl</p>
+
+        <div class="eyebrow">
+            Kártyajáték
+        </div>
+
+        <h1>
+            Feladatkártya Sorsoló
+        </h1>
+
+        <p class="subtitle" id="progress-info">
+            Nincs betöltve CSV fájl
+        </p>
+
     </header>
 
+
+    <!-- KÁRTYÁK -->
+
     <div class="cards-grid">
+
         <div class="card card-1">
-            <div class="card-top">1 pontos feladat</div>
-            <div class="card-content" id="card-1-text">Vár a feladat...</div>
-            <div class="card-bottom-line"></div>
+
+            <div class="card-top">
+                1 pontos feladat
+            </div>
+
+            <div
+                class="card-content"
+                id="card-1-text">
+                Vár a feladat...
+            </div>
+
+            <div class="card-bottom">
+
+                <div class="card-number">
+                    01
+                </div>
+
+                <div class="card-bottom-line"></div>
+
+            </div>
+
         </div>
+
 
         <div class="card card-2">
-            <div class="card-top">2 pontos feladat</div>
-            <div class="card-content" id="card-2-text">Vár a feladat...</div>
-            <div class="card-bottom-line"></div>
+
+            <div class="card-top">
+                2 pontos feladat
+            </div>
+
+            <div
+                class="card-content"
+                id="card-2-text">
+                Vár a feladat...
+            </div>
+
+            <div class="card-bottom">
+
+                <div class="card-number">
+                    02
+                </div>
+
+                <div class="card-bottom-line"></div>
+
+            </div>
+
         </div>
+
     </div>
+
+
+    <!-- GOMBOK -->
 
     <div class="controls-area">
+
         <div class="controls">
+
             <label class="btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                <span id="upload-label-text">Fájl betöltése</span>
-                <input type="file" id="csv-file" accept=".csv,.txt">
+
+                <svg width="15" height="15"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+
+                </svg>
+
+                <span
+                    class="file-name"
+                    id="upload-label-text">
+                    Fájl betöltése
+                </span>
+
+                <input
+                    type="file"
+                    id="csv-file"
+                    accept=".csv,.txt">
+
             </label>
 
-            <button class="btn" id="draw-btn" disabled>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+
+            <button
+                class="btn"
+                id="draw-btn"
+                disabled>
+
+                <svg width="15" height="15"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <polyline points="16 3 21 3 21 8"></polyline>
+                    <line x1="4" y1="20" x2="21" y2="3"></line>
+                    <polyline points="21 16 21 21 16 21"></polyline>
+                    <line x1="15" y1="15" x2="21" y2="21"></line>
+                    <line x1="4" y1="4" x2="9" y2="9"></line>
+
+                </svg>
+
                 SORSOLÁS
+
             </button>
 
-            <button class="btn" id="reset-btn" title="Újratöltés">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+
+            <button
+                class="btn"
+                id="reset-btn">
+
+                <svg width="15" height="15"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+
+                </svg>
+
                 RESET
+
             </button>
+
         </div>
+
     </div>
+
 </div>
 
+
 <script>
-    let tasks1 = [];
-    let tasks2 = [];
-    let origTotal = 0;
 
-    const settingsToggle = document.getElementById('settings-toggle');
-    const themeMenu = document.getElementById('theme-menu');
+let tasks1 = [];
+let tasks2 = [];
+let origTotal = 0;
 
-    settingsToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        themeMenu.classList.toggle('active');
-    });
 
-    document.addEventListener('click', () => {
-        themeMenu.classList.remove('active');
-    });
+/* =========================
+   TÉMA
+========================= */
 
-    function setTheme(theme) {
-        if (theme === 'default') {
-            document.documentElement.removeAttribute('data-theme');
-            localStorage.setItem('sorsolo_theme', 'default');
-        } else {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('sorsolo_theme', theme);
-        }
-        themeMenu.classList.remove('active');
+const settingsToggle =
+    document.getElementById("settings-toggle");
+
+const themeMenu =
+    document.getElementById("theme-menu");
+
+
+settingsToggle.addEventListener("click", function(e) {
+
+    e.stopPropagation();
+
+    themeMenu.classList.toggle("active");
+
+});
+
+
+document.addEventListener("click", function() {
+
+    themeMenu.classList.remove("active");
+
+});
+
+
+function setTheme(theme) {
+
+    if (theme === "default") {
+
+        document.documentElement
+            .removeAttribute("data-theme");
+
+    } else {
+
+        document.documentElement
+            .setAttribute("data-theme", theme);
+
     }
 
-    const savedTheme = localStorage.getItem('sorsolo_theme');
-    if (savedTheme) {
-        setTheme(savedTheme);
-    }
+    localStorage.setItem(
+        "sorsolo_theme",
+        theme
+    );
 
-    document.getElementById('csv-file').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
+    themeMenu.classList.remove("active");
+}
 
-        document.getElementById('upload-label-text').innerText = file.name;
 
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(file);
-        
-        reader.onload = function(e) {
-            const buffer = e.target.result;
-            const decoder = new TextDecoder('windows-1250');
-            const text = decoder.decode(buffer);
-            
-            const lines = text.split(/\r\n|\n/);
-            
-            tasks1 = [];
-            tasks2 = [];
+/* mentett téma */
 
-            lines.forEach(line => {
-                if (line.trim() === '') return;
-                let separator = line.includes(';') ? ';' : ',';
-                let cols = line.split(separator).map(c => c.trim().replace(/^["']|["']$/g, ''));
+const savedTheme =
+    localStorage.getItem("sorsolo_theme");
 
-                if (cols[0] && cols[0].length > 0) tasks1.push(cols[0]);
-                if (cols[1] && cols[1].length > 0) tasks2.push(cols[1]);
-            });
+if (savedTheme) {
 
-            origTotal = Math.max(tasks1.length, tasks2.length);
+    setTheme(savedTheme);
 
-            if (origTotal > 0) {
-                document.getElementById('draw-btn').disabled = false;
-                document.getElementById('card-1-text').innerText = "Készen áll a sorsolásra!";
-                document.getElementById('card-2-text').innerText = "Készen áll a sorsolásra!";
-                updateProgress();
-            } else {
-                alert("Nem találtam feladatokat a fájlban!");
+}
+
+
+/* =========================
+   CSV BETÖLTÉS
+========================= */
+
+document
+.getElementById("csv-file")
+.addEventListener("change", function(e) {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+
+    document
+    .getElementById("upload-label-text")
+    .innerText = file.name;
+
+
+    const reader = new FileReader();
+
+    reader.readAsArrayBuffer(file);
+
+
+    reader.onload = function(e) {
+
+        const buffer = e.target.result;
+
+
+        /* Magyar Excel CSV */
+
+        const decoder =
+            new TextDecoder("windows-1250");
+
+
+        const text =
+            decoder.decode(buffer);
+
+
+        const lines =
+            text.split(/\r\n|\n/);
+
+
+        tasks1 = [];
+        tasks2 = [];
+
+
+        lines.forEach(function(line) {
+
+            if (line.trim() === "")
+                return;
+
+
+            let separator =
+                line.includes(";")
+                    ? ";"
+                    : ",";
+
+
+            let cols =
+                line
+                .split(separator)
+                .map(function(c) {
+
+                    return c
+                    .trim()
+                    .replace(
+                        /^["']|["']$/g,
+                        ""
+                    );
+
+                });
+
+
+            if (
+                cols[0] &&
+                cols[0].length > 0
+            ) {
+
+                tasks1.push(cols[0]);
+
             }
-        };
-    });
 
-    document.getElementById('draw-btn').addEventListener('click', function() {
-        if (tasks1.length === 0 && tasks2.length === 0) {
-            alert("Elfogyott az összes kártya!");
-            this.disabled = true;
-            return;
-        }
 
-        if (tasks1.length > 0) {
-            const index1 = Math.floor(Math.random() * tasks1.length);
-            document.getElementById('card-1-text').innerText = tasks1.splice(index1, 1)[0];
+            if (
+                cols[1] &&
+                cols[1].length > 0
+            ) {
+
+                tasks2.push(cols[1]);
+
+            }
+
+        });
+
+
+        origTotal =
+            Math.max(
+                tasks1.length,
+                tasks2.length
+            );
+
+
+        if (origTotal > 0) {
+
+            document
+            .getElementById("draw-btn")
+            .disabled = false;
+
+
+            document
+            .getElementById("card-1-text")
+            .innerText =
+                "Készen áll a sorsolásra.";
+
+
+            document
+            .getElementById("card-2-text")
+            .innerText =
+                "Készen áll a sorsolásra.";
+
+
+            updateProgress();
+
         } else {
-            document.getElementById('card-1-text').innerText = "— Elfogyogtak az 1 pontosok —";
+
+            alert(
+                "Nem találtam feladatokat a fájlban!"
+            );
+
         }
 
-        if (tasks2.length > 0) {
-            const index2 = Math.floor(Math.random() * tasks2.length);
-            document.getElementById('card-2-text').innerText = tasks2.splice(index2, 1)[0];
-        } else {
-            document.getElementById('card-2-text').innerText = "— Elfogytak a 2 pontosok —";
-        }
+    };
 
-        updateProgress();
-    });
+});
 
-    document.getElementById('reset-btn').addEventListener('click', function() {
-        location.reload();
-    });
 
-    function updateProgress() {
-        const remaining = Math.max(tasks1.length, tasks2.length);
-        const sorsoltIndex = origTotal - remaining;
-        document.getElementById('progress-info').innerText = `Sorsolt sor: ${sorsoltIndex} / ${origTotal}`;
+/* =========================
+   SORSOLÁS
+========================= */
+
+document
+.getElementById("draw-btn")
+.addEventListener("click", function() {
+
+    if (
+        tasks1.length === 0 &&
+        tasks2.length === 0
+    ) {
+
+        alert(
+            "Elfogyott az összes kártya!"
+        );
+
+        this.disabled = true;
+
+        return;
+
     }
+
+
+    if (tasks1.length > 0) {
+
+        const index1 =
+            Math.floor(
+                Math.random() *
+                tasks1.length
+            );
+
+
+        document
+        .getElementById("card-1-text")
+        .innerText =
+            tasks1.splice(index1, 1)[0];
+
+    } else {
+
+        document
+        .getElementById("card-1-text")
+        .innerText =
+            "Elfogytak az 1 pontos feladatok.";
+
+    }
+
+
+    if (tasks2.length > 0) {
+
+        const index2 =
+            Math.floor(
+                Math.random() *
+                tasks2.length
+            );
+
+
+        document
+        .getElementById("card-2-text")
+        .innerText =
+            tasks2.splice(index2, 1)[0];
+
+    } else {
+
+        document
+        .getElementById("card-2-text")
+        .innerText =
+            "Elfogytak a 2 pontos feladatok.";
+
+    }
+
+
+    updateProgress();
+
+});
+
+
+/* =========================
+   RESET
+========================= */
+
+document
+.getElementById("reset-btn")
+.addEventListener("click", function() {
+
+    location.reload();
+
+});
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+function updateProgress() {
+
+    const remaining =
+        Math.max(
+            tasks1.length,
+            tasks2.length
+        );
+
+
+    const sorsoltIndex =
+        origTotal - remaining;
+
+
+    document
+    .getElementById("progress-info")
+    .innerText =
+        `Sorsolt sor: ${sorsoltIndex} / ${origTotal}`;
+
+}
+
 </script>
 
 </body>
 </html>
+```
